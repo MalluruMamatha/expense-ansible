@@ -1,6 +1,9 @@
 - name: configure backend server
   hosts: backend
   become: yes
+  vars:
+    login_password: ExpenseApp@1
+    login_host: db.malluru.online
   tasks:
   - name: disable nodejs
     ansible.builtin.command: dnf module disable nodejs -y
@@ -48,9 +51,9 @@
 
   - name: import data into mysql
     community.mysql.mysql_db:
-      # login_user: root
-      # login_password: "{{ login_password }}"
-      # login_host: "{{ login_host }}"
+      login_user: root
+      login_password: "{{ login_password }}"
+      login_host: "{{ login_host }}"
       target: /app/schema/backend.sql
       state: import
       name: all
